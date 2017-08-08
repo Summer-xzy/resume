@@ -1,31 +1,36 @@
+//初始化组件
 require('../less/PageComponentManage.less');
 var ComponentBaseFactory = require('./ComponentBase.js');
 var ComponentBarFactory = require('./ComponentBar.js');
 var ComponentPolylineFactory = require('./ComponentPolyline.js');
 var ComponentPieFactory = require('./ComponentPie.js');
+
 var pageComponentManageObj = {
+	//创建一个container容器
 	init: function (name) {
 		this.oContainer = $('<div class="' + name + '"/>');
-		this.oContainer.hide();
+		this.oContainer.hide();  //初始隐藏
 		$('body').append(this.oContainer);
-
-		this.oPageArray = [];
-		return this;
+		this.oPageArray = [];   //pageComponentManageObj下的全局数组
+		return this;  //用来实现链式调用
 	},
+	//添加页
 	addPage: function (name, text) {
-		var oPage = $('<div class="page section"/>');
-		name && oPage.addClass(name);
+		var oPage = $('<div class="page section"/>'); //创建一个标签
+		name && oPage.addClass(name);          //给标签添加个名字
 		text && oPage.text(text);
-		this.oPageArray.push(oPage);
-		this.oContainer.append(oPage);
+
+		this.oPageArray.push(oPage);          //1 2 3 4 5 6  把每一页添加到数组中
+		this.oContainer.append(oPage);        //把每页添加到容器中
 
 		oPage.append(this.autoAddComponent());
 		return this;
 	},
+	//根据类型选择组件  config是从index里addComponent里拿出的内容
 	addComponent: function (config) {
 		switch(config.type) {
 			case 'base':
-					var Component = ComponentBaseFactory(config);
+					var Component = ComponentBaseFactory(config);  //如果是base类型，就使用基础组件
 				break;
 			case 'bar':
 					var Component = ComponentBarFactory(config);
@@ -37,24 +42,24 @@ var pageComponentManageObj = {
 					var Component = ComponentPieFactory(config);
 			default:
 		}
-		this.oPageArray[this.oPageArray.length - 1].append(Component);
+		this.oPageArray[this.oPageArray.length - 1].append(Component);	//把组件添加到页面的最后
 		return this;
 	},
+	//上下翻页时触发cpLeave，cpLoad事件
 	load: function () {
-		this.oContainer.show();
+		this.oContainer.show();   //容器显示
 
-		this.oContainer.fullpage({
-			sectionsColor: ['red', 'green', 'blue', 'orange', 'deeppink', 'yellow'],
+		this.oContainer.fullpage({  //容器调用fullpage插件
 			onLeave: function (index, nextIndex, direction) {
-				$('.container').find('.page').eq(index -1).trigger('pageLeave');
+				$('.container').find('.page').eq(index -1).trigger('pageLeave');  //离开时给每一页添加pageLeave事件
 			},
 			afterLoad: function (achorLink, index) {
-				$('.container').find('.page').eq(index -1).trigger('pageLoad');
+				$('.container').find('.page').eq(index -1).trigger('pageLoad');   //进入时给每一页添加pageLeave事件
 			}
 		});
 
 		$('.page').on('pageLeave', function () {
-			$(this).find('.ComponentBase').trigger('cpLeave');
+			$(this).find('.ComponentBase').trigger('cpLeave');  //页触发pageLeave事件，给每个组件添加cpLeave事件
 		});
 
 		$('.page').on('pageLoad', function () {
@@ -64,9 +69,9 @@ var pageComponentManageObj = {
 		$('.page').eq(0).find('.ComponentBase').trigger('cpLoad');
 	},
 	moveTo: function () {
-		console.log('moveTo')
 		this.oContainer.fullpage.moveTo(1);
 	},
+	//下标签网址  每页都有
 	autoAddComponent: function () {
 		return ComponentBaseFactory({
 			type: 'base',

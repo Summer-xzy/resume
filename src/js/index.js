@@ -1,3 +1,4 @@
+//分6页,添加每页内容
 require('./jqUI.js');
 require('./jqFp.js');
 var pageComponentManageObj = require('./pageComponentManage.js');
@@ -74,45 +75,27 @@ pageComponentManageObj
 						})
 						.addComponent({
 							type: 'base',
-							name: 'left-bottom',
-							width: 345,
-							height: 493,
+							name: 'slogan',
+							center: true,
+							width: 364,
+							height: 80,
+							text:"Web前端工程师",
 							css: {
 								opacity: 0,
-								bottom: 0,
-								left: -50,
-								backgroundImage: "url(./src/img/left.png)"
+								top: 380,
+								left: 0,
+								fontSize:25,
+
 							},
 							animateIn: {
 								opacity: 1,
-								left: 0
+								left: '50%'
 							},
 							animateOut: {
 								opacity: 0,
-								left: -50,
+								left: 0,
 							},
-							delay: 1000,		
-						})
-						.addComponent({
-							type: 'base',
-							name: 'right-bottom',
-							width: 324,
-							height: 449,
-							css: {
-								opacity: 0,
-								bottom: 0,
-								right: -50,
-								backgroundImage: "url(./src/img/right.png)"
-							},
-							animateIn: {
-								opacity: 1,
-								right: 0
-							},
-							animateOut: {
-								opacity: 0,
-								right: -50
-							},
-							delay: 1500,		
+							delay: 600,		
 						})
 					.addPage('secondPage')
 						.addComponent({
@@ -151,7 +134,7 @@ pageComponentManageObj
 							},
 							animateIn: {
 								opacity: 1,
-								top: 170
+								top: 180
 							},
 							animateOut: {
 								opacity: 0,
@@ -240,7 +223,7 @@ pageComponentManageObj
 							},
 							animateIn: {
 								opacity: 1,
-								top: 155
+								top: 170
 							},
 							animateOut: {
 								opacity: 0,
@@ -315,7 +298,7 @@ pageComponentManageObj
 							},
 							animateIn: {
 								opacity: 1,
-								top: 145
+								top: 170
 							},
 							animateOut: {
 								opacity: 0,
@@ -326,8 +309,8 @@ pageComponentManageObj
 						.addComponent({
 							type: 'polyline',
 							name: 'block',
-							width: 504,
-							height: 604,
+							width: 508,
+							height: 612,
 							center: true,
 							css: {
 								opacity: 0,
